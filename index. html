@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stream Intro</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: transparent;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    @font-face {
+        font-family: 'GoodTiming';
+        src: url('good timing bd.otf') format('opentype');
+    }
+
+    .black-mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: black;
+        z-index: 0;
+        opacity: 1;
+        transition: opacity 2s ease;
+    }
+
+    /* VIDEO Background */
+    video.bg {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        opacity: 1;
+        transition: opacity 2s ease;
+        z-index: 1;
+    }
+
+    /* TIMER BOX */
+    .timer-box {
+        position: absolute;
+        top: 435px;
+        left: 70px;
+        width: 260px;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+        transition: opacity 2s ease;
+        z-index: 2;
+    }
+
+    /* Back TIMER (shadow) */
+    #timer-back {
+        position: absolute;
+        font-family: 'GoodTiming';
+        font-size: 70px;
+        font-weight: bold;
+        color: black;
+        opacity: 0.9;
+        transform: translate(2px, 2px);
+    }
+
+    /* Front TIMER with TEXTURE */
+    #timer-front {
+        position: absolute;
+        font-family: 'GoodTiming';
+        font-size: 70px;
+        font-weight: bold;
+        background: url("New Project 32 [470F632].png");
+        -webkit-background-clip: text;
+        color: transparent;
+        background-size: cover;
+    }
+
+    /* LIVE TEXT layers */
+    #live-back, #live-front {
+        position: absolute;
+        top: 435px;
+        left: 105px;
+        font-family: 'GoodTiming';
+        font-size: 70px;
+        font-weight: bold;
+        opacity: 0;
+        transition: opacity 1.5s ease;
+        z-index: 10;
+    }
+
+    /* Back LIVE shadow */
+    #live-back {
+        color: black;
+        transform: translate(2px, 2px);
+    }
+
+    /* Front LIVE with texture */
+    #live-front {
+        background: url("New Project 32 [470F632].png");
+        -webkit-background-clip: text;
+        color: transparent;
+        background-size: cover;
+        z-index: 11;
+    }
+
+    .fade-out {
+        opacity: 0;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="black-mask"></div>
+
+<!-- VIDEO INSTEAD OF GIF -->
+<video class="bg" autoplay muted playsinline>
+    <source src="New Project 18 Copy 3 [0A299E9].mp4" type="video/mp4">
+</video>
+
+<div class="timer-box">
+    <div id="timer-back">10:00</div>
+    <div id="timer-front">10:00</div>
+</div>
+
+<div id="live-back">LIVE</div>
+<div id="live-front">LIVE</div>
+
+<script>
+let time = 305; // seconds
+
+function updateTimer() {
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+
+    let display = String(minutes).padStart(2, '0') + ":" + String(seconds).padStart(2, '0');
+
+    document.getElementById("timer-front").innerHTML = display;
+    document.getElementById("timer-back").innerHTML = display;
+
+    if (time === 0) {
+
+        // Fade out TIMER
+        document.querySelector(".timer-box").classList.add("fade-out");
+
+        // Show LIVE
+        document.getElementById("live-front").style.opacity = "1";
+        document.getElementById("live-back").style.opacity = "1";
+
+        // Fade video + mask + live all together
+        setTimeout(() => {
+            document.querySelector(".bg").classList.add("fade-out");
+            document.querySelector(".black-mask").classList.add("fade-out");
+            document.getElementById("live-front").classList.add("fade-out");
+            document.getElementById("live-back").classList.add("fade-out");
+        }, 5000);
+
+        // Remove LIVE completely
+        setTimeout(() => {
+            document.getElementById("live-front").style.display = "none";
+            document.getElementById("live-back").style.display = "none";
+        }, 7000);
+    }
+
+    if (time > 0) time--;
+}
+
+setInterval(updateTimer, 1000);
+</script>
+
+</body>
+</html>
