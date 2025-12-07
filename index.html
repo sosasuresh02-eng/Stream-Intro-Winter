@@ -32,7 +32,6 @@
         transition: opacity 2s ease;
     }
 
-    /* VIDEO Background */
     video.bg {
         position: fixed;
         width: 100vw;
@@ -43,7 +42,6 @@
         z-index: 1;
     }
 
-    /* TIMER BOX */
     .timer-box {
         position: absolute;
         top: 435px;
@@ -58,7 +56,6 @@
         z-index: 2;
     }
 
-    /* Back TIMER shadow */
     #timer-back {
         position: absolute;
         font-family: 'GoodTiming';
@@ -69,7 +66,6 @@
         transform: translate(2px, 2px);
     }
 
-    /* Front TIMER with TEXTURE */
     #timer-front {
         position: absolute;
         font-family: 'GoodTiming';
@@ -81,7 +77,6 @@
         background-size: cover;
     }
 
-    /* LIVE TEXT */
     #live-back, #live-front {
         position: absolute;
         top: 435px;
@@ -94,13 +89,11 @@
         z-index: 10;
     }
 
-    /* LIVE shadow */
     #live-back {
         color: black;
         transform: translate(2px, 2px);
     }
 
-    /* LIVE texture */
     #live-front {
         background: url("New Project 32 [470F632].png");
         -webkit-background-clip: text;
@@ -117,21 +110,23 @@
 
 <div class="black-mask"></div>
 
-<!-- LOOPING VIDEO -->
+<!-- LOOP VIDEO -->
 <video class="bg" autoplay muted playsinline loop>
     <source src="New Project 18 Copy 3 [0A299E9].mp4" type="video/mp4">
 </video>
 
 <div class="timer-box">
-    <div id="timer-back">10:00</div>
-    <div id="timer-front">10:00</div>
+    <div id="timer-back">05:15</div>
+    <div id="timer-front">05:15</div>
 </div>
 
 <div id="live-back">LIVE</div>
 <div id="live-front">LIVE</div>
 
 <script>
-let time = 305; // seconds (5 min 5 sec)
+
+// Timer = 5 min 15 seconds
+let time = 315;
 
 function updateTimer() {
     let minutes = Math.floor(time / 60);
@@ -143,18 +138,22 @@ function updateTimer() {
 
     if (time === 0) {
 
+        // Fade OUT timer
         document.querySelector(".timer-box").classList.add("fade-out");
 
+        // LIVE fade IN
         document.getElementById("live-front").style.opacity = "1";
         document.getElementById("live-back").style.opacity = "1";
 
+        // After 5 sec fade out LIVE + video + mask
         setTimeout(() => {
-            document.querySelector(".bg").classList.add("fade-out");
-            document.querySelector(".black-mask").classList.add("fade-out");
             document.getElementById("live-front").classList.add("fade-out");
             document.getElementById("live-back").classList.add("fade-out");
+            document.querySelector(".bg").classList.add("fade-out");   // VIDEO fade out
+            document.querySelector(".black-mask").classList.add("fade-out"); // BG fade out
         }, 5000);
 
+        // After fade fully hide LIVE
         setTimeout(() => {
             document.getElementById("live-front").style.display = "none";
             document.getElementById("live-back").style.display = "none";
