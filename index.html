@@ -129,7 +129,6 @@
 <div id="live-front">LIVE</div>
 
 <script>
-
 // Timer = 5 min 15 sec
 let time = 315;
 
@@ -140,10 +139,8 @@ setTimeout(() => {
     audio.play();
 }, 10000);
 
-
 // TIMER FUNCTION
 function updateTimer() {
-
     let minutes = Math.floor(time / 60);
     let seconds = time % 60;
 
@@ -165,10 +162,18 @@ function updateTimer() {
             document.getElementById("live-back").classList.add("fade-out");
 
             // VIDEO fade out
-            document.querySelector(".bg").classList.add("fade-out");
+            let video = document.querySelector(".bg");
+            video.classList.add("fade-out");
 
             // MASK fade out
             document.querySelector(".black-mask").classList.add("fade-out");
+
+            // ---- STOP & HIDE VIDEO after fade ----
+            setTimeout(() => {
+                video.pause();
+                video.currentTime = 0;
+                video.style.display = "none";
+            }, 2000);
 
             // MUSIC fade out (3 seconds)
             let audio = document.getElementById("introMusic");
